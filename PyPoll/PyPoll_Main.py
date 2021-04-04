@@ -97,12 +97,10 @@ output=(
 print(output)
 
 # Specify the file to write to
-output_path = os.path.join(".", "Analysis","Results.csv")
+output_path = os.path.join(".", "Analysis","Results.txt")
 
 # Open the file using "write" mode. Specify the variable to hold the contents
-with open(output_path, 'w', newline='') as csvfile:
+with open(output_path, 'w') as writer:
 
-    # Initialize csv.writer
-    csvwriter = csv.writer(csvfile)
-
-    csvwriter.writerow(output)
+    #Write the Summary table in the File
+    writer.write(output)
