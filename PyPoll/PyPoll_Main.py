@@ -30,6 +30,31 @@ with open(csv_file_path) as csv_file:
         #Increase Total_Votes by 1
         Total_Votes = Total_Votes + 1
 
+        #Create conditional to calculate total votes per candidate
+        #For each vote for Khan
+        if row[2] == str("Khan"):
+
+            #Add one vote to Khan's total
+            Khan_Votes += 1
+
+        #For each vote for Correy
+        elif row[2] == str("Correy"):
+
+            #Add one vote to Correy's Total
+            Correy_Votes += 1
+
+        #For each vote for Li
+        elif row[2] == str("Li"):
+
+            #Add one vote to Li's Total
+            Li_Votes += 1    
+
+        #For each vote for O'Tooley
+        else: 
+
+            #Add one vote to O'Tooley's Total
+            Tooley_Votes += 1
+
 print()
 
 #Create Summary Table
