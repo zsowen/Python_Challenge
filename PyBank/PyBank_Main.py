@@ -26,8 +26,6 @@ with open(csv_file_path) as csv_file:
     #Read through each row of data after the header
     for row in csv_reader:
         
-        #print(row[0],row[1])
-        
         #increase total_months by 1
         total_months = total_months + 1
 
