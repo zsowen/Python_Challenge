@@ -11,6 +11,9 @@ total = 0
 average_change = 0
 greatest_increase = ["",0]
 greatest_decrease = ["",0]
+accum_change = 0
+prev_month = 0
+current_change = 0
 
 #Open and read the csv_file called budget_data.csv
 with open(csv_file_path) as csv_file:
@@ -32,31 +35,39 @@ with open(csv_file_path) as csv_file:
         total += int(row[1])
 
         #Calculate the month to month change
+        #Check if current month is the first month
         if total_months <= 1:
-            continue
+            #Advance previous month value to current row
+            prev_month = int(row[1])
 
         else:
-            print("Greater")
+            #Calculate current_change as row[1] - the previous months row[1]
+            current_change = int(row[1])-prev_month
+            
+            #Calculate accum_change by adding the current_change value
+            accum_change += current_change
 
-
-
-        #use conditional to see if current change is greater than greatest_increase
-            #if greater than replace current values in greatest_increase
-
-        #use conditional to see if current change is less than greatest_decrease
-            #if less than replace current values in greatest_decrease
-
-        #--------------------------------------
+            #Advance previous month value to current row
+            prev_month = int(row[1])
         
-        #setup variables for next iteration
+        #use conditional to see if current change is greater than greatest_increase
+        if current_change > int(greatest_increase[1]):
+            #if greater than replace current values in greatest_increase
+            greatest_increase = [row[0], current_change]
+        
+        #use conditional to see if current change is less than greatest_decrease
+        elif current_change < int(greatest_decrease[1]):
+            #if less than replace current values in greatest_decrease
+            greatest_decrease = [row[0], current_change]
+        
+        else:
+            continue 
 
-        #set prior_value = current_row
-
-#Calculate total
-
-#Calculate total change
+        #--------------------------------------        
+        
 
 #Calculate average_change = total change/(total months-1)
+average_change = round(accum_change/(total_months-1),2)
 
 print()
 
@@ -72,3 +83,20 @@ output=(
 )
 
 print(output)
+
+# Specify the file to write to
+output_path = os.path.join(".", "Analysis","Results.csv")
+
+# Open the file using "write" mode. Specify the variable to hold the contents
+with open(output_path, 'w', newline='') as csvfile:
+
+    # Initialize csv.writer
+    csvwriter = csv.writer(csvfile)
+ 
+    csvwriter.writerow(["Financial Analysis"])
+    csvwriter.writerow(["----------------------------"])
+    csvwriter.writerow(["Total Months: {total_months}"])
+    csvwriter.writerow(["Total: {total}"])
+    csvwriter.writerow(["Average Change: {average_change}"])
+    csvwriter.writerow(["Greatest Increase in Profits: {greatest_increase}"])
+    csvwriter.writerow(["Greatest Decrease in Profits: {greatest_decrease}"])
