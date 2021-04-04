@@ -48,3 +48,14 @@ output=(
 )
 
 print(output)
+
+# Specify the file to write to
+output_path = os.path.join(".", "Analysis","Results.csv")
+
+# Open the file using "write" mode. Specify the variable to hold the contents
+with open(output_path, 'w', newline='') as csvfile:
+
+    # Initialize csv.writer
+    csvwriter = csv.writer(csvfile)
+
+    csvwriter.writerow(output)
