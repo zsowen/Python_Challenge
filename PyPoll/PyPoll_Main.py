@@ -15,6 +15,12 @@ Li_Votes = 0
 Li_Percent = 0
 Tooley_Percent = 0
 Tooley_Votes = 0
+Khan = Khan_Votes
+Correy = Correy_Votes
+Li = Li_Votes
+Tooley = Tooley_Votes
+Candidate_List = [Khan, Correy, Li, Tooley]
+Winner = ""
 
 #Open and read the csv_file called election_data.csv
 with open(csv_file_path) as csv_file:
@@ -55,6 +61,22 @@ with open(csv_file_path) as csv_file:
             #Add one vote to O'Tooley's Total
             Tooley_Votes += 1
 
+        #Calculate Candidate's Percentages
+        #For Khan
+        Khan_Percent = round((Khan_Votes/Total_Votes)*100,3)
+
+        #For Correy
+        Correy_Percent = round((Correy_Votes/Total_Votes)*100,3)
+
+        #For Li
+        Li_Percent = round((Li_Votes/Total_Votes)*100,3)
+
+        #For O'Tooley
+        Tooley_Percent = round((Tooley_Votes/Total_Votes)*100,3)
+
+        #Find Winner
+        Winner = (max(Candidate_List))
+
 print()
 
 #Create Summary Table
@@ -68,7 +90,7 @@ output=(
     f"Li: {Li_Percent}% ({Li_Votes})\n"
     f"O'Tooley: {Tooley_Percent}% ({Tooley_Votes})\n"
     f"-------------------------------------\n"
-    f"Winner: \n"
+    f"Winner: {Winner}\n"
     f"-------------------------------------\n"
 )
 
