@@ -20,6 +20,7 @@ Correy = Correy_Votes
 Li = Li_Votes
 Tooley = Tooley_Votes
 Candidate_List = [Khan, Correy, Li, Tooley]
+Candidate_Names = ["Khan", "Correy", "Li", "O'Tooley"]
 Winner = ""
 
 #Open and read the csv_file called election_data.csv
@@ -75,7 +76,7 @@ with open(csv_file_path) as csv_file:
         Tooley_Percent = round((Tooley_Votes/Total_Votes)*100,3)
 
         #Find Winner
-        Winner = (max(Candidate_List))
+        Winner = Candidate_Names[(max(Candidate_List))]
 
 print()
 
