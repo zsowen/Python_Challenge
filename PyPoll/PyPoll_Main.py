@@ -5,23 +5,11 @@ import csv          #read csv file using .reader method
 csv_file_path = os.path.join(".","Resources","election_data.csv")
 print(csv_file_path)
 
-#Initiate Variables
-Total_Votes = 0
-Khan_Votes = 0
-Khan_Percent = 0
-Correy_Votes = 0
-Correy_Percent = 0
-Li_Votes = 0
-Li_Percent = 0
-Tooley_Percent = 0
-Tooley_Votes = 0
-Khan = Khan_Votes
-Correy = Correy_Votes
-Li = Li_Votes
-Tooley = Tooley_Votes
-Candidate_List = [Khan, Correy, Li, Tooley]
-Candidate_Names = ["Khan", "Correy", "Li", "O'Tooley"]
-Winner = ""
+#Initiate List & Dictionary
+Candidate = []
+Candidate_Votes = {}
+
+
 
 #Open and read the csv_file called election_data.csv
 with open(csv_file_path) as csv_file:
@@ -34,74 +22,63 @@ with open(csv_file_path) as csv_file:
     #Read through each row of data after the header
     for row in csv_reader:
 
-        #Increase Total_Votes by 1
-        Total_Votes = Total_Votes + 1
+        #Create List for Candidate names & Dictionary for Candidate Vote Totals
+        Candidate = row[2]
 
-        #Create conditional to calculate total votes per candidate
-        #For each vote for Khan
-        if row[2] == str("Khan"):
+        if Candidate in Candidate_Votes.keys():
 
-            #Add one vote to Khan's total
-            Khan_Votes += 1
+            Candidate_Votes[Candidate] +=1
 
-        #For each vote for Correy
-        elif row[2] == str("Correy"):
+        else:
 
-            #Add one vote to Correy's Total
-            Correy_Votes += 1
+            Candidate_Votes[Candidate] = 1
 
-        #For each vote for Li
-        elif row[2] == str("Li"):
+    # Specify the file to write to
+    output_path = os.path.join(".", "Analysis","Results.txt")
 
-            #Add one vote to Li's Total
-            Li_Votes += 1    
+    # Open the file using "write" mode. Specify the variable to hold the contents
+    with open(output_path, 'w') as writer:
 
-        #For each vote for O'Tooley
-        else: 
+        #Calculate Total Votes
+        Total_Votes = sum(Candidate_Votes.values())
 
-            #Add one vote to O'Tooley's Total
-            Tooley_Votes += 1
+        #Print first piece of results
+        print(f"Election Results")
+        writer.write(f"Election Results\n")
 
-        #Calculate Candidate's Percentages
-        #For Khan
-        Khan_Percent = round((Khan_Votes/Total_Votes)*100,3)
+        print(f"-------------------------------")
+        writer.write(f"-------------------------------\n")
 
-        #For Correy
-        Correy_Percent = round((Correy_Votes/Total_Votes)*100,3)
+        print(f"Total Votes: {Total_Votes}")
+        writer.write(f"Total Votes: {Total_Votes}\n")
 
-        #For Li
-        Li_Percent = round((Li_Votes/Total_Votes)*100,3)
+        print(f"-------------------------------")
+        writer.write(f"-------------------------------\n")
 
-        #For O'Tooley
-        Tooley_Percent = round((Tooley_Votes/Total_Votes)*100,3)
+        #Initiate List for Candidate Percentages
+        Percent = []
 
-        #Find Winner
-        Winner = Candidate_Names[(max(Candidate_List))]
+        #Calculate percentages
+        for i in Candidate_Votes:
 
-print()
+            percent = round((Candidate_Votes[i]/Total_Votes)*100,2)
+          
+            print(f"{i}: {percent}% {Candidate_Votes[i]}")
+            writer.write(f"{i}: {percent}% {Candidate_Votes[i]}\n")
 
-#Create Summary Table
-output=(
-    f"Election Results\n"
-    f"-------------------------------------\n"
-    f"Total Votes: {Total_Votes}\n"
-    f"-------------------------------------\n"
-    f"Khan: {Khan_Percent}% ({Khan_Votes})\n"
-    f"Correy: {Correy_Percent}% ({Correy_Votes})\n"
-    f"Li: {Li_Percent}% ({Li_Votes})\n"
-    f"O'Tooley: {Tooley_Percent}% ({Tooley_Votes})\n"
-    f"-------------------------------------\n"
-    f"Winner: {Winner}\n"
-    f"-------------------------------------\n"
-)
+        #Calculate the winner
+        for key in Candidate_Votes.keys():
 
-print(output)
+            if Candidate_Votes[key]==max(Candidate_Votes.values()):
 
-# Specify the file to write to
-output_path = os.path.join(".", "Analysis","Results.txt")
+                Winner = key
 
-# Open the file using "write" mode. Specify the variable to hold the contents
-with open(output_path, 'w') as writer:
+        #Print remainder of results
+        print(f"-------------------------------")
+        writer.write(f"-------------------------------\n")
+        
+        print(f"Winner: {Winner}")
+        writer.write(f"Winner: {Winner}\n")
 
-    #Write the Summary table in the File
-    writer.write(output)
+        print(f"-------------------------------")
+        writer.write(f"-------------------------------\n")
